@@ -122,6 +122,9 @@ module.exports = {
 							.responsiveWidth{
 								width:100%;
 							}
+							.akarabutton{
+								font-size:14px;
+							}
 							.footerSetting{
 								justify-content:space-around;
 								width:100%;

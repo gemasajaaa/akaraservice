@@ -1,0 +1,19 @@
+{
+  "name": "akaraservice",
+  "version": "1.0.0",
+  "description": "online ordering app",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gemasajaaa/akaraservice.git"
+  },
+  "author": "gema",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gemasajaaa/akaraservice/issues"
+  },
+  "homepage": "https://github.com/gemasajaaa/akaraservice#readme"
+}

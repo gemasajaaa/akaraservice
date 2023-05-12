@@ -776,12 +776,13 @@ const newProductSPops = function(pid){
 						padding:5px;
 					"
 					>
-						<span
+						<input
 						style="
 							font-weight:bold;
 							text-decoration:underline;
 						"
-						>${pid}</span>
+						value=${pid}
+						>
 						<img src=/file?fn=copy.png
 						style="
 							width:16px;

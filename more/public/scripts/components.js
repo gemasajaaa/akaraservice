@@ -688,6 +688,25 @@ const getInfo = function(el,id){
 							<span>${data.adminnotes}</span>
 						</div>
 					</div>
+					<div
+					style="
+						display:${!data.changedStuff?'none':'flex'};
+						justify-content:space-between;
+						align-items:center;
+					">
+						<div
+						style="
+							width:50%;
+						">
+							<span>Barang Diganti</span>
+						</div>
+						<div
+						style="
+							width:50%;
+						">
+							<span>${data.changedStuff}</span>
+						</div>
+					</div>
 					
 				`
 			}))

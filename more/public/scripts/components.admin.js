@@ -462,6 +462,36 @@ const processData = function(d,target=0){
 							</div>
 							<div
 							style="
+								display:flex;
+								justify-content:space-between;
+								margin-bottom:10px;
+								align-items:flex-start;
+								flex-direction:column;
+							">
+								<div
+								style="
+									margin-bottom:10px;
+								">
+									<span>Barang Diganti</span>
+								</div>
+								<div
+								style="
+									width:100%;
+								"
+								>
+									<textarea type=number id=changedStuff placeholder="Tulis detail barang disini"
+									style="
+										pading:10px;
+										background:#ececec;
+										border:none;
+										width:100%;
+										outline:none;
+									"
+									>${this.data.changedStuff||''}</textarea>
+								</div>
+							</div>
+							<div
+							style="
 								margin-top:20px;
 								padding:10px;
 								display:${target!=2?'flex':'none'};
@@ -590,7 +620,8 @@ const processData = function(d,target=0){
 							cost:rightSide.find('#cost').value||0,
 							status:1,
 							deadline:rightSide.find('#deadline').innerHTML,
-							adminnotes:rightSide.find('#adminnotes').value||'-'
+							adminnotes:rightSide.find('#adminnotes').value||'-',
+							changedStuff:rightSide.find('#changedStuff').value||'-'
 						}).then(()=>{
 							content.clickedDiv.remove();
 							rightSide.setHTML(`

@@ -625,7 +625,7 @@ const processData = function(d,target=0){
 									Berhasil Menyimpan Perubahan!
 								</div>
 							`)
-							loadData(1);
+							loadData(2);
 						})
 					}
 				},
@@ -641,8 +641,8 @@ const processData = function(d,target=0){
 								margin-bottom:5px;
 							`,
 							onclick(){
-								cOn.get({url:src});
 								this.src = '/file?fn=check-mark.png';
+								window.open(src);
 							}
 						}));
 					})

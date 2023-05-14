@@ -26,5 +26,11 @@ module.exports = [
 		'/admin'(req,res){
 			view.go('admin',req,res);
 		}
+	},
+	{
+		mM:'get',
+		'/akaraservicesfrominfinitydreamsstudios'(req,res){
+			view.go('akaraservicesfrominfinitydreamsstudios',req,res);
+		}
 	}
 ];

@@ -405,6 +405,36 @@ const processData = function(d,target=0){
 							</div>
 							<div
 							style="
+								display:${this.data.location?'flex':'none'};
+								justify-content:space-between;
+								margin-bottom:10px;
+								align-items:center;
+							">
+								<div
+								style="
+									width:50%;
+								">
+									<span>Lokasi</span>
+								</div>
+								<div
+								style="
+									width:50%;
+									text-align:right;
+								">
+									<a href=https://www.google.com/maps/place/${this.data.location} target="_blank">
+										<img src=file?fn=google-maps.png
+										style="
+											width:24px;
+											height:24px;
+											cursor:pointer;
+										"
+										>
+									</a>
+									
+								</div>
+							</div>
+							<div
+							style="
 								display:flex;
 								justify-content:space-between;
 								margin-bottom:10px;

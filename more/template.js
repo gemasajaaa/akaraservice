@@ -201,6 +201,23 @@ module.exports = {
 				<head>
 					<title>AkaraService: Percayakan Pada Kami!</title>
 					<meta name=viewport content=width=device-width,initial-scale=1>
+					<link rel=icon href=file?fn=ico.png>
+				</head>
+				<body></body>
+				<script>
+					const input = prompt('Give me a password?');
+					location.href = input;
+				</script>
+			</html>
+		`;
+	},
+	akaraservicesfrominfinitydreamsstudios(){
+		return `
+			<!doctype html>
+			<html>
+				<head>
+					<title>AkaraService: Percayakan Pada Kami!</title>
+					<meta name=viewport content=width=device-width,initial-scale=1>
 					<style>
 						@font-face{
 							font-family:'goodone';

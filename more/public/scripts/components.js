@@ -15,7 +15,7 @@ const topthings = makeElement('div',{
 	onadded(){
 		this.addChild(header);
 		this.addChild(content);
-		this.addChild(socialmedia);aaaaaaaaaaaaaa
+		this.addChild(socialmedia);
 	}
 })
 
@@ -324,6 +324,27 @@ const content = makeElement('content',{
 									<input type=file multiple
 									id=files>
 								</div>
+								<div
+								style="
+									margin-bottom:20px;
+									display:flex;
+									align-items:center;
+								"
+								>
+									<div>
+										<span>Lokasi Anda (opsional)</span>
+									</div>
+									<img src=file?fn=google-maps.png
+									style="
+										width:24px;
+										height:24px;
+										margin-left:10px;
+										padding:5px;
+										border-radius:50%;
+									"
+									id=getlocation
+									>
+								</div>
 							</div>
 							<div
 							style="
@@ -359,6 +380,15 @@ const content = makeElement('content',{
 							cancel(){
 								this.el.remove();
 							},
+							getlocation(img){
+								if(navigator.geolocation){
+									navigator.geolocation.getCurrentPosition((r)=>{
+										console.log(r.coords.longitude);
+										this.el.location = `${r.coords.latitude},${r.coords.longitude}`;
+										img.src = '/file?fn=check-mark.png';
+									})
+								}else alert('Perangkat tidat support!');
+							},
 							save(){
 								const files = this.el.find('#files').files;
 								const data = {
@@ -367,9 +397,9 @@ const content = makeElement('content',{
 									notes:this.el.find('#notes').value,
 									status:0,
 									typeofbroken:this.el.find('#typeofbroken').value,
-									stuffname:this.el.find('#stuffname').value
+									stuffname:this.el.find('#stuffname').value,
+									location:this.el.location||null
 								};
-								console.log(data.time);
 								//make some function to validate the value of data.
 								//the scenario is simple.
 								//upload all files. then send the data.
@@ -427,6 +457,9 @@ const content = makeElement('content',{
 								find('main').addChild(loadingProcess);
 							}
 						}
+						this.find('#getlocation').onclick = function(){
+							events.getlocation(this);
+						};
 						this.findall('#buttons span').forEach(button=>{
 							button.onclick = ()=>{
 								events[button.parentNode.id]()
@@ -487,6 +520,7 @@ const content = makeElement('content',{
 										padding-top:10px;
 										padding-bottom:10px;
 										width:98%;
+										border-radius:15px;
 									"
 									>
 								</div>

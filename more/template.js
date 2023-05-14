@@ -45,6 +45,11 @@ module.exports = {
 						.footerItems{
 							margin:0 5px;
 						}
+						.mediasocial div img{
+							width:32px;
+							height:32px;
+							cursor:pointer;
+						}
 						#finder{
 							width:50%;
 						}

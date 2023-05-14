@@ -15,12 +15,13 @@ const topthings = makeElement('div',{
 	onadded(){
 		this.addChild(header);
 		this.addChild(content);
+		this.addChild(socialmedia);aaaaaaaaaaaaaa
 	}
 })
 
 const header = makeElement('header',{
 	style:`
-		margin-bottom:100px;
+		margin-bottom:50px;
 	`,
 	storageref:firebase.storage().ref(),
 	productsref:firebase.database().ref('products'),
@@ -48,6 +49,7 @@ const header = makeElement('header',{
 		<div
 		style="
 			text-align:center;
+			margin-bottom:10px;
 		"
 		>
 			<span
@@ -76,6 +78,84 @@ const header = makeElement('header',{
 		</div>
 	`
 })
+
+const socialmedia = makeElement('div',{
+	innerHTML:`
+		<div
+		style="
+			margin-top: 80px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		"
+		>
+			<div
+			style="
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 30%;
+				background: #000b5b;
+				padding: 5px;
+				border-radius: 20px;
+			"
+			class=mediasocial
+			>
+				<div>
+					<a href=https://instagram.com/mrmongkeyy target=_blank>
+						<img src=/file?fn=igone.png>
+					</a>
+				</div>
+				<div>
+					<a href=https://api.whatsapp.com/send?phone=+6285366033329&text=AdaJob!" target=_blank>
+						<img src=/file?fn=wa.png>
+					</a>
+				</div>
+				<div>
+					<a href='https://www.google.com/maps/place/-3.875086, 102.334505' target="_blank">
+						<img src=/file?fn=google-maps.png>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div
+		style="
+			display:flex;
+			justify-content:center;a
+		"
+		>
+			<div
+				style="
+					display:flex;
+					margin-top:20px;
+					font-size:9px;
+					align-items:center;
+					color:white;
+					width:30%;
+					justify-content:space-around;
+				"
+				>
+					<div>
+						A product by
+					</div>
+					<div>
+						<a href=https://infinitydreams.cyclic.app target=_blank>
+							<img src=file?fn=infinity.png
+							style="
+								width:24px;
+								height:24px;
+							"
+							>
+						</a>
+					</div>
+				</div>
+		</div>
+	`,
+	onclick(){
+		
+	}
+})
+
 
 const content = makeElement('content',{
 	style:`
@@ -106,7 +186,7 @@ const content = makeElement('content',{
 					Cek Pesanan
 				</span>
 			</div>
-		</div>
+		</div>	
 	`,
 	buttonEventSetup(){
 		const events = {
@@ -131,7 +211,6 @@ const content = makeElement('content',{
 							background:white;
 							padding:30px;
 							border-radius:10px;
-							height:60%;
 						"
 						>
 							<div

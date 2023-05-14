@@ -600,6 +600,7 @@ const getInfo = function(el,id){
 	product.get().then(data=>{
 		data = data.val();
 		setTimeout(()=>{
+			const statuslabel = ['ORDER','PENDING','ONGOING','DONE','REJECTED','CANCELED'];
 			loadingProcess.remove();
 			el.find('#info').clear();
 			if(!data){
@@ -607,11 +608,12 @@ const getInfo = function(el,id){
 					<div
 					style="
 						margin-top:30px;
+						font-family:calibri;
 					"
 					>
 						<span
 						style="color:red"
-						>ID Tidak Valid.</span>
+						>ID TIDAK VALID ATAU OWNER MENOLAK PESANAN ANDA!</span>
 					</div>
 				`);
 			}else el.find('#info').addChild(makeElement('div',{
@@ -760,7 +762,7 @@ const getInfo = function(el,id){
 						style="
 							width:50%;
 						">
-							<span>${data.status===0?'ORDER':data.status===1?'PENDING':'DONE'}</span>
+							<span id=statustochange>${statuslabel[data.status]}</span>
 						</div>
 					</div>
 					<div
@@ -820,8 +822,46 @@ const getInfo = function(el,id){
 							<span>${data.changedStuff}</span>
 						</div>
 					</div>
-					
-				`
+					<div
+					id=useraction
+					style="
+						display:${data.status===1?'flex':'none'};
+						justify-content:space-between;
+						align-items:center;
+						margin:10px 0;
+					">
+						<div
+						style="
+							width:50%;
+						">
+							<span>Tindakan</span>
+						</div>
+						<div
+						style="
+							width:50%;
+							text-align:center;
+						">
+							<span class=akarabutton id=continuebutton>Lanjutkan</span>
+							<span class=akarabutton id=cancelbutton>Batal</span>
+						</div>
+					</div>
+				`,
+				onadded(){
+					const useraction = this.find('#useraction');
+					const statusquo = this.find('#statustochange');
+					this.find('#continuebutton').onclick = ()=>{
+						product.update({status:2}).then(()=>{
+							useraction.remove();
+							statusquo.innerHTML = 'APPROVED';
+						})
+					}
+					this.find('#cancelbutton').onclick = ()=>{
+						product.update({status:5}).then(()=>{
+							useraction.remove();
+							statusquo.innerHTML = 'Canceled';
+						})
+					}
+				}
 			}))
 		},500)
 	})

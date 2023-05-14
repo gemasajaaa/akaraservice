@@ -104,6 +104,28 @@ const leftSide = makeElement('div',{
 			>
 			<div>PENDING</div>
 		</div>
+		<div class=button id=job
+		style="
+			padding:10px;
+			background:white;
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			margin-bottom:10px;
+			flex-direction:column;
+			width:80%;
+			cursor:pointer;
+		"
+		>
+			<img src=/file?fn=job-offer.png
+			style="
+				width:24px;
+				height:24px;
+				margin-bottom:5px;
+			"
+			>
+			<div>JOB</div>
+		</div>
 		<div class=button id=done
 		style="
 			padding:10px;
@@ -134,12 +156,16 @@ const leftSide = makeElement('div',{
 			pending(){
 				loadData(1);
 			},
-			done(){
+			job(){
 				loadData(2);
+			},
+			done(){
+				loadData(3);
 			}
 		};
 		this.findall('.button').forEach(button=>{
 			button.onclick = ()=>{
+				rightSide.clear();
 				map[button.id]();
 			}
 		})
@@ -178,9 +204,10 @@ const datanull = function(){
 }
 
 const processData = function(d,target=0){
+	const labelmap = ['ORDER','PENDING','JOB','DONE'];
 	centerSide.find('#loading').remove();
 	centerSide.addChild(makeElement('div',{
-		innerHTML:`${target===0?'ORDER':target===1?'PENDING':'DONE'}`,
+		innerHTML:`${labelmap[target]}`,
 		style:`
 			margin-bottom:10px;
 			position:sticky;
@@ -193,7 +220,7 @@ const processData = function(d,target=0){
 	Object.keys(d).forEach(key=>{
 		data.push(Object.assign(d[key],{key}));
 	});
-	if(target===1)data.sort(function(a,b){
+	if(target===3)data.sort(function(a,b){
 		const ad = a.deadline.split('/');
 		const bd = b.deadline.split('/');
 		const atime = new Date(`${ad[1]+' '+ad[0]}`).getTime();
@@ -232,6 +259,7 @@ const processData = function(d,target=0){
 				onclick(){
 					content.clickedDiv = this;
 					this.processPreview();
+					console.log(this.data);
 				},
 				processPreview(){
 					rightSide.clear();
@@ -240,7 +268,7 @@ const processData = function(d,target=0){
 							background:white;
 							padding:10px;
 							font-size:14px;
-						`,
+						`,deadlinefrom:this.data.deadline,
 						innerHTML:`
 							<div
 							style="
@@ -524,7 +552,7 @@ const processData = function(d,target=0){
 							style="
 								margin-top:20px;
 								padding:10px;
-								display:${target!=2?'flex':'none'};
+								display:${target==2?'flex':'none'};
 							"
 							>
 								<div
@@ -551,7 +579,7 @@ const processData = function(d,target=0){
 							style="
 								margin-top:20px;
 								padding:10px;
-								display:${target===2?'block':'none'};
+								display:${target===3?'block':'none'};
 							"
 							>
 								<div
@@ -564,7 +592,54 @@ const processData = function(d,target=0){
 									>Hapus</span>
 								</div>
 							</div>
-						`
+							<div
+							style="
+								margin-top:20px;
+								padding:10px;
+								display:${target===1?'block':'none'};
+							"
+							>
+								<div
+								style="
+									text-align:center;
+								"
+								id=cancel
+								>
+									<span class=akarabutton
+									>Batalkan</span>
+								</div>
+							</div>
+							<div
+							style="
+								margin-top:20px;
+								padding:10px;
+								display:${target===0?'flex':'none'};
+							"
+							>
+								<div
+								style="
+									text-align:center;
+								"
+								id=request
+								>
+									<span class=akarabutton
+									>Ajukan</span>
+								</div>
+								<div
+								style="
+									text-align:center;
+									margin-left:5px;
+								"
+								id=reject
+								>
+									<span class=akarabutton
+									>Tolak</span>
+								</div>
+							</div>
+						`,
+						onadded(){
+							this.find('#deadline').date = this.deadlinefrom;
+						}
 					}))
 					this.displayFiles();
 					rightSide.find('#changedeadline').onclick = ()=>{
@@ -617,16 +692,26 @@ const processData = function(d,target=0){
 							`,
 							onadded(){
 								this.find('#savebutton').onclick = ()=>{
-									rightSide.find('#deadline').innerHTML = this.find('#time').value+'/'+this.find('#date').value;
+									const date = this.find('#time').value+'/'+this.find('#date').value;
+									rightSide.find('#deadline').update({
+										innerHTML:date,
+										date
+									});
 									this.remove();
 								}
 							}
 						}))
 					}
-					rightSide.find('#finishbutton').onclick = ()=>{
-						const cost = rightSide.find('#cost').value||0;
+					//requestbutton.
+					rightSide.find('#request').onclick = ()=>{
 						//time to update db.
-						content.newProductsRef(this.data.key).update({cost,status:2}).then(()=>{
+						content.newProductsRef(this.data.key).update({
+							cost:rightSide.find('#cost').value||0,
+							status:1,
+							deadline:rightSide.find('#deadline').date,
+							adminnotes:rightSide.find('#adminnotes').value||'-',
+							changedStuff:rightSide.find('#changedStuff').value||'-'
+						}).then(()=>{
 							content.clickedDiv.remove();
 							rightSide.setHTML(`
 								<div id=loading
@@ -644,12 +729,78 @@ const processData = function(d,target=0){
 							loadData(target);
 						})
 					}
+					//cancelbutton.
+					rightSide.find('#cancel').onclick = ()=>{
+						//time to update db.
+						content.newProductsRef(this.data.key).update({
+							status:5
+						}).then(()=>{
+							content.clickedDiv.remove();
+							rightSide.setHTML(`
+								<div id=loading
+								style="
+									height:100%;
+									display:flex;
+									align-items:center;
+									justify-content:center;
+									flex-direction:column;
+								"
+								>
+									Berhasil Menyimpan Perubahan!
+								</div>
+							`)
+							loadData(target);
+						})
+					}
+					//rejectbuttn.
+					rightSide.find('#reject').onclick = ()=>{
+						//time to update db.
+						content.newProductsRef(this.data.key).remove().then(()=>{
+							content.clickedDiv.remove();
+							rightSide.setHTML(`
+								<div id=loading
+								style="
+									height:100%;
+									display:flex;
+									align-items:center;
+									justify-content:center;
+									flex-direction:column;
+								"
+								>
+									Berhasil Menyimpan Perubahan!
+								</div>
+							`)
+							loadData(target);
+						})
+					}
+					//finishbutton.
+					rightSide.find('#finishbutton').onclick = ()=>{
+						const cost = rightSide.find('#cost').value||0;
+						//time to update db.
+						content.newProductsRef(this.data.key).update({cost,status:3}).then(()=>{
+							content.clickedDiv.remove();
+							rightSide.setHTML(`
+								<div id=loading
+								style="
+									height:100%;
+									display:flex;
+									align-items:center;
+									justify-content:center;
+									flex-direction:column;
+								"
+								>
+									Berhasil Menyimpan Perubahan!
+								</div>
+							`)
+							loadData(target);
+						})
+					}
+					//save button.
 					rightSide.find('#savebutton').onclick = ()=>{
 						//time to update db.
 						content.newProductsRef(this.data.key).update({
 							cost:rightSide.find('#cost').value||0,
-							status:1,
-							deadline:rightSide.find('#deadline').innerHTML,
+							deadline:rightSide.find('#deadline').date,
 							adminnotes:rightSide.find('#adminnotes').value||'-',
 							changedStuff:rightSide.find('#changedStuff').value||'-'
 						}).then(()=>{
@@ -753,7 +904,7 @@ const loadData = function(target=0){
 	content.productsref.get().then(data=>{
 		data = data.val();
 		if(!data){
-			datanull()
+			datanull();
 		}else{
 			processData(data,target);
 		}

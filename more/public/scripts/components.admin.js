@@ -733,7 +733,7 @@ const processData = function(d,target=0){
 					rightSide.find('#cancel').onclick = ()=>{
 						//time to update db.
 						content.newProductsRef(this.data.key).update({
-							status:5
+							status:4
 						}).then(()=>{
 							content.clickedDiv.remove();
 							rightSide.setHTML(`

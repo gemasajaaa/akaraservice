@@ -5,7 +5,7 @@ module.exports = {
 		this[req.path](req.query.fn,res,req.query.dir);
 	},
 	"/scripts"(fn,res){
-		res.file(`./more/public/scripts/${fn}.js`);
+		res.file(`./more/public/scripts/${fn}.release.js`);
 	},
 	"/styles"(fn,res){
 		res.file(`./more/public/styles/${fn}.release.css`);

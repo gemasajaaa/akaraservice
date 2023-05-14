@@ -710,7 +710,7 @@ const loadData = function(target=0){
 				<span>Memuat Info!</span>
 			</div>
 			<div>
-				<img src=/file?fn=loadingScreen.gif
+				<img src=/file?fn=loadingscreen.gif
 				style="
 					width:100px;
 					height:100px;
